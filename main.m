@@ -1,9 +1,27 @@
 S = load('data_logistic.mat');
 dataset = S.z;
 
-d = [2.7810836 2.550537003 0;1.465489372 2.362125076 0;3.396561688 4.400293529 0;1.38807019 1.850220317 0;3.06407232 3.005305973 0;7.627531214 2.759262235 1;5.332441248 2.088626775 1;6.922596716 1.77106367 1;8.675418651 -0.242068655 1;7.673756466 3.508563011 1];
+dataSize = length(dataset);
+testDataSize = round(length(dataset) * 0.4);
+testData = zeros(testDataSize, 4);
+
+rng(0,'twister');
+for i = 1:testDataSize
+    randomIndex = round((dataSize - 1) * rand());
+    disp(randomIndex);
+    testData(i,1:3) = dataset(randomIndex, :);
+    dataset(randomIndex, :) = [];
+    dataSize = dataSize - 1;
+end
+
+testData
 
 learningRate = 0.3;
-epochNumber = 10000;
+epochNumber = 1000;
 
-coef = gradientDescent(dataset, learningRate, epochNumber) 
+coef = gradientDescent(dataset, learningRate, epochNumber);
+
+for i = 1:length(testData)
+    testData(i,4) = round(predict(testData(i,:), coef));
+end
+
