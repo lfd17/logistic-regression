@@ -1,4 +1,5 @@
 % Logistic Regression Classifier
+% BLG454E - HW2
 %
 % Fools on Parade
 % Burak Sayýn - 150130120

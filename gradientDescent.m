@@ -6,7 +6,7 @@ function coefficients = gradientDescent(data, learningRate, epochCount)
     
     for epoch = 1:epochCount
         squaredError = 0;
-        for i = 1:length(data)
+        for i = 1:dataLength
             row = data(i,:);
             prediction = predict(row, coefficients);
             error = row(3) - prediction;
