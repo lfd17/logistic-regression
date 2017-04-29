@@ -23,38 +23,34 @@ for i = 1:testDataSize
     dataSize = dataSize - 1;
 end
 
+% Plot a test classification result on a new figure.
+epochNumber = 700;
+learningRate = 0.3;
+[error, testData] = calculateErrorRateWithClassification(dataset, testData, epochNumber, learningRate);
+figure;
+gscatter(testData(:,1), testData(:,2), testData(:,4), 'br','xo');
+xlabel('First Feature');
+ylabel('Second Feature');
+title('Test data classification | Epoch: 700 - Learning Rate: 0.3'); 
+
 % Construct the arrays for the plotting.
-epochNumbers = 50:+25:1000;
-learningRates = 0.05:+0.025:1.0;
+epochNumbers = 50:+50:1000;
+learningRates = 0.025:+0.025:1.0;
 errors = zeros(length(epochNumbers), length(learningRates));
 
 epochIndex = 1;
 for epochNumber = epochNumbers
     learningRateIndex = 1;
     
-    for learningRate = learningRates
-        
-        % Calculate the coefficients using stochastic gradient descent.
-        coef = gradientDescent(dataset, learningRate, epochNumber);
-
-        % Construct test predictions.
-        errorRate = 0;
-        for i = 1:length(testData)
-            testData(i,4) = round(predict(testData(i,:), coef));
-            if testData(i,3) ~= testData(i,4)
-                errorRate = errorRate + 1;
-            end
-        end
-
-        errorRate = (errorRate / testDataSize) * 100;
-        errors(epochIndex,learningRateIndex) = errorRate;
-        fprintf('Epoch Count: %d - Learning Rate: %.3f - Error: %f\n', epochNumber, learningRate, errorRate);
+    for learningRate = learningRates        
+        [errors(epochIndex,learningRateIndex), testData] = calculateErrorRateWithClassification(dataset, testData, epochNumber, learningRate);
         learningRateIndex = learningRateIndex + 1;
     end
     epochIndex = epochIndex + 1;
 end
 
 % Plot the results.
+figure;
 surf(learningRates, epochNumbers, errors);
 title('Error rate of the Logistic Regression Classifier')
 xlabel('Learning Rate')
