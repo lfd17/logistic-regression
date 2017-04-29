@@ -22,17 +22,15 @@ for i = 1:testDataSize
     dataSize = dataSize - 1;
 end
 
-epochNumbers = 50:+50:1000;
-learningRates = 0.0:+0.05:1.0;
+% Construct the arrays for the plotting.
+epochNumbers = 50:+25:1000;
+learningRates = 0.05:+0.025:1.0;
 errors = zeros(length(epochNumbers), length(learningRates));
-length(epochNumbers)
-length(learningRates)
-size(errors)
-
 
 epochIndex = 1;
 for epochNumber = epochNumbers
     learningRateIndex = 1;
+    
     for learningRate = learningRates
         
         % Calculate the coefficients using stochastic gradient descent.
@@ -49,12 +47,13 @@ for epochNumber = epochNumbers
 
         errorRate = (errorRate / testDataSize) * 100;
         errors(epochIndex,learningRateIndex) = errorRate;
-        fprintf('Epoch Count: %d - Learning Rate: %.2f - Error: %f\n', epochNumber, learningRate, errorRate);
+        fprintf('Epoch Count: %d - Learning Rate: %.3f - Error: %f\n', epochNumber, learningRate, errorRate);
         learningRateIndex = learningRateIndex + 1;
     end
     epochIndex = epochIndex + 1;
 end
 
+% Plot the results.
 surf(learningRates, epochNumbers, errors);
 title('Error rate of the Logistic Regression Classifier')
 xlabel('Learning Rate')

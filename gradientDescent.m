@@ -17,6 +17,5 @@ function coefficients = gradientDescent(data, learningRate, epochCount)
                 coefficients(j) = coefficients(j) + learningRate * error * prediction * (1 - prediction) * row(j - 1);
             end 
         end
-        % fprintf('Epoch: %d, Error Rate: %.3f\n', epoch, squaredError);
     end
 end
