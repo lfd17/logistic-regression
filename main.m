@@ -56,6 +56,7 @@ for epochNumber = epochNumbers
 end
 
 surf(learningRates, epochNumbers, errors);
+title('Error rate of the Logistic Regression Classifier')
 xlabel('Learning Rate')
 ylabel('Epoch Numbers')
 zlabel('Percentage Error Rate');
